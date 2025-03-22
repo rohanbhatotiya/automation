@@ -1,0 +1,28 @@
+name: Max Contributions
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"  # Runs every 3 hours (8 times per day)
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Make Multiple Commits
+        run: |
+          for i in {1..5}
+          do
+            echo "Commit $i on $(date)" >> log.txt
+            git add log.txt
+            git commit -m "Automated commit $i"
+          done
+
+      - name: Push Changes
+        run: |
+          git config --global user.name "rohanbhatotiya"
+          git config --global user.email "rohanbhatotiya@gmail.com"
+          git push
