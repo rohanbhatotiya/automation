@@ -1,8 +1,9 @@
 name: Max Contributions
 
 on:
+  push:  # Runs the workflow whenever a commit is pushed
   schedule:
-    - cron: "0 */3 * * *"  # Runs every 3 hours (8 times per day)
+    - cron: "0 */3 * * *"  # Runs every 3 hours
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -22,7 +23,10 @@ jobs:
           done
 
       - name: Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "rohanbhatotiya"
           git config --global user.email "rohanbhatotiya@gmail.com"
-          git push
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/rohanbhatotiya/automation.git
+
